@@ -117,22 +117,11 @@ class LearnController extends BaseController
 
 		foreach ($wordlist as $word) 
 		{
-			$word_data = array();
+			$word_data = $word;
 
-			$word_data["id"] = $word["id"];
-			$word_data["key"] = $word["key"];
-			$word_data["value"] = $word["value"];
+
 			$word_data["image"] = 'img/object/'.$objectId.'/'.$word["id"].'.jpg';
 
-			$word_data["kanjiMean"] = $word["kanjiMean"];
-			$word_data["englishMean"] = $word["englishMean"];
-
-			$word_data["attributes"] = $word["attributes"];
-			$word_data["romaji"] = $word["romaji"];
-
-			$word_data["exampleJp"] = $word["exampleJp"];
-			$word_data["exampleEn"] = $word["exampleEn"];
-			$word_data["exampleVi"] = $word["exampleVi"];
 
 			//Push thís word to array of Course
 			array_push($data,$word_data);

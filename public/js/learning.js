@@ -655,7 +655,7 @@ function handleNextLayer(currentLayer)
 
  	if(currentLayer["type"] == "typing_full")
  	{
- 		var charInput = '<input type="text" placeholder="Nhập đáp án rồi bấm Enter:">';
+ 		var charInput = '<input type="text" placeholder="Nhập đáp án bằng Japanese hoặc Romaji rồi bấm Enter:">';
  		var html = '<div class="typingFull">'
  					+'<div class="row">'
 	 					+'<div class="small-6 small-centered columns">'
