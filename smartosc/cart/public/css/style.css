@@ -1,0 +1,25 @@
+body{
+	
+}
+.loginForm{
+	margin-top: 200px;
+}
+.createForm{
+	margin-top: 50px;
+}
+
+.message{
+	background-color: 	red;
+}
+.product li{
+	border: 1px solid gray;
+	padding:20px;
+
+}
+.navBar{
+	background-color: black;
+	padding:20px;
+}
+	.navBar a{
+		color:white;
+	}
