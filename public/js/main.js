@@ -1,5 +1,12 @@
 $(document).ready(function(){
 
+
+
+  $('#popupMenuButton').click(function(){
+ 
+    $('#popupMenuWrapper').toggle();
+  });
+
 	$('.btnFollowing').hover(function()
     {
         $(this).text("Unfollow");

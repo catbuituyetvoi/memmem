@@ -495,7 +495,27 @@ function generateCourse(wordList)
 			//wordLayer.attributes = word.attributes
 			//wordLayer.englishMean = word.englishMean
 
-			//Generate a typing_char
+			//Generate a typing_FULL question
+			//var typingFullLayer = {};
+
+			
+
+			//Push this word to Layer
+			course.push(wordLayer);
+			//Also generate a typing_full Layer
+			var typingFullLayer = generateTypingFullLayer(word);
+			//course.push( typingFullLayer );
+
+		});
+
+		return course;
+}
+//********************************************************
+//param: word - array of word Data
+//return: typingFullLayer - array of Typing Full Question
+//********************************************************
+function generateTypingFullLayer(word){
+	//Generate a typing_char
 			var typingFullLayer = {};
 
 			typingFullLayer.keyId = word.id;
@@ -505,15 +525,8 @@ function generateCourse(wordList)
 			typingFullLayer.answerRomaji = word.romaji;
 			typingFullLayer.question = word.value;
 
-			//Push this word to Layer
-			course.push(wordLayer);
-			course.push(typingFullLayer);
-
-		});
-
-		return course;
+	return typingFullLayer;
 }
-
 //Get the Next Layer in Array List
 function getNextLayer()
 {

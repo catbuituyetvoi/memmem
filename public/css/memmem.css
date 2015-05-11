@@ -26,18 +26,46 @@ body{
 
 
 /* TOP NAV BAR */
-
+.contain-to-grid{
+    background-color: #89CB2C;
+}
 .topBar{
      background-color: #89CB2C;
 }
-    .topBar a, .topBar li{
-         background-color: #89CB2C !important;
-    }
+ 
     .topBar .divider{
         border-right: solid 1px  #60B009 !important;
     }
 
+    .top-bar-section ul li{
+        background: none !important;
+    }
 
+#popupMenuWrapper{
+    background-color: #FAFAFA;
+    
+    z-index:5;
+    position: absolute;
+    top: 45px;
+    right: 0px;
+      border: 1px solid rgba(100, 100, 100, 0.4);
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.25);
+      padding: 20px;
+}
+.popup-user-info{
+    padding: 10px;
+    background-color: #FFFFFF !important;
+}
+    .popup-user-info{
+        cursor: pointer;
+    }
+    .popup-avatar{
+        width:80px;
+        height: 80px;
+    }
+    .popup-menu-icon-wrap{
+        padding: 10px;
+    }
 
 /* Loading div is full centering screen */
 #loading{
@@ -144,6 +172,7 @@ body{
 }
 .mcq p{
     height:40px;
+    border-bottom: 1px solid #DBC9C9;
 }
 .mcq p:hover{
     background-color: #9FD850;

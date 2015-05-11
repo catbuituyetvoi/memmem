@@ -4,11 +4,11 @@
 	@include('include/head')
 </head>
 <body>
-<div class="marketing off-canvas-wrap" data-offcanvas="">
 
-		<header>
+
+	
 			@include('include/navBar')
-		</header>
+	
 
 		@if (Session::has('message'))
 
@@ -24,6 +24,6 @@
 			@yield('content')
 		</div>
 
-	</div>
+
 </body>
 </html>
