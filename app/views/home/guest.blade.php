@@ -1,12 +1,10 @@
 @extends('layout.main')
 @section('content')
 	<div class="row">
-		<div class="medium-3 small-12 columns right">
+		<div class="medium-3 small-12 columns right homeRight">
 			<div class="rightLogin">
 
-			
-
-				<p>Đăng nhập</p>
+				<p class="text-center darkGreen size-20">Đăng nhập</p>
 				<form  action="{{ URL::route('user-login-post') }}" method="post">
 	
 					<div class="row ">
@@ -36,14 +34,13 @@
 
 					{{ Form::token() }}
 				</form>
-
+				<p>hoặc</p>
 				<a class="button alert" href="{{ URL::route('user-register') }}">Tạo tài khoản và học ngay!</a>
 			</div>
 		</div>
 
 		<div class="medium-9 small-12 columns">
 			
-
 			<h2> Bộ từ được chia sẻ</h2>
 			
 			<ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4">

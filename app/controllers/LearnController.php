@@ -17,7 +17,9 @@ class LearnController extends BaseController
 
 		Session::set('objectId', $objectId);
 
-		$language = Object::find($objectId)->language;
+		$data["object"] = Object::find( $objectId );
+
+		$language = $data["object"]->language;
 
 		$data["setCollection"] = SetCollection::
 				whereRaw('user_id = ?', array(Auth::id()))

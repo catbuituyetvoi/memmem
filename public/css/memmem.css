@@ -10,6 +10,9 @@ body{
 .green{
     color:  green;
 }
+.darkGreen{
+    color: #16a085;
+}
 .blue{
     color:  blue;
 }
@@ -24,13 +27,30 @@ body{
         color:      white;
     }
 
+.size-20{
+    font-size: 20px;
+}
+.size-36{
+    font-size: 36px;
+}
+
+.size-48{
+    font-size: 48px;
+}
+.padding-left-10{
+    padding-left: 10px;
+}
+
+.no-padding{
+    padding: 0;
+}
 
 /* TOP NAV BAR */
 .contain-to-grid{
-    background-color: #89CB2C;
+    background-color: #1CB518;
 }
 .topBar{
-     background-color: #89CB2C;
+     background-color: inherit;
 }
  
     .topBar .divider{
@@ -41,7 +61,29 @@ body{
         background: none !important;
     }
 
+.message{
+    background-color: rgb(157, 158, 157);
+  color: white;
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+  
+#notifyIcon a{
+    color: #0F710F;
+    background: none;
+}
+
+#popupMenuButton a{
+    color: #0F710F;;
+    background: none;
+}
+
 #popupMenuWrapper{
+
+    display: none;
+
     background-color: #FAFAFA;
     
     z-index:5;
@@ -54,18 +96,65 @@ body{
 }
 .popup-user-info{
     padding: 10px;
-    background-color: #FFFFFF !important;
+    background-color: #FFFFFF ;
+    cursor: pointer;
+
+     border-radius: 86px 0px 0px 90px;
+    -moz-border-radius: 86px 0px 0px 90px;
+    -webkit-border-radius: 86px 0px 0px 90px;
+     border: 0px solid #000000;
+
+    box-shadow: 0px 3px 8px rgba(9, 160, 5, 0.16);
+
+    margin-bottom: 20px;
 }
-    .popup-user-info{
-        cursor: pointer;
-    }
+
+        .popup-user-info:hover{
+            background-color: #F9F9F9 ;
+        }
+
     .popup-avatar{
-        width:80px;
+     
+        width: 80px;
         height: 80px;
+        border-radius: 40px;
+        -webkit-border-radius: 40px;
+        -moz-border-radius: 40px;
+        
+        box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+        -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+        -moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+
+        background-size: cover !important;
     }
+
     .popup-menu-icon-wrap{
         padding: 10px;
+
     }
+        .popup-menu-icon-wrap li{
+            text-align: center;
+            cursor: pointer;
+            
+            font-size: 14px;
+
+            color: #645D5D;
+
+        }
+            .popup-menu-icon-wrap li:hover{
+                background-color: white !important;
+                box-shadow: 0px 3px 1px rgba(50, 158, 6, 0.5);
+
+                color: green;
+            }
+            
+        .popup-menu-icon-wrap p{
+            margin-bottom: 0;
+        }
+
+        #logoutButton{
+            margin-top: 25px;
+        }
 
 /* Loading div is full centering screen */
 #loading{
@@ -107,11 +196,41 @@ body{
             padding: 20px;
         }
 
-        
+/******************************************************************/        
 /* GUEST HOMEPAGE */
-.rightLogin form{
-    margin-top: 30px;
+
+/* the right login form at home page */
+.homeRight{
+    box-shadow: 0px 4px 5px rgba(19, 200, 19, 0.37);
 }
+
+.rightLogin {
+    margin-top:20px;
+    padding-bottom: 20px;
+}
+    .rightLogin form input{
+          background: 0 0;
+          border: 0;
+          border-bottom: 1px solid;
+          border-radius: 0;
+          -webkit-appearance: none!important;
+          vertical-align: middle;
+          padding-left: 0;
+          border-color: #dbe0e2;
+          box-shadow: none !important;
+
+    }
+        .rightLogin form button, .rightLogin input[type=submit]{
+            box-shadow: #001F02 1px 1px 3px 0px !important;
+        }
+
+        .rightLogin .forgotPassword{
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+/*******************************************************/
+/* LEARNING LAYER */
 
 .learningWrapper{
   position: relative;
@@ -119,8 +238,8 @@ body{
 
 .learning{
     position: relative;
-    height:400px;
-    border:ridge 4px #4dfa76;
+    height: 450px;
+    border:ridge 4px #F5F5F5;
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-topright:6px;
     -moz-border-radius-bottomleft:5px;
@@ -138,9 +257,17 @@ body{
     padding: 20px;
 
 }
+.layerImage{
+    padding: 4px;
+    border: 1px solid #ECE6E6;
+}
+
+
+
 .filter{
    height:400px;
 }
+
 .charAnswer{
     height:         30px !important;
     width:          26px !important;
@@ -152,40 +279,108 @@ body{
     margin:         10px 5px !important;
     padding:        0px !important;
 }
+
 .layer{
 	position: absolute;
     border: 1px solid red;
 }
 
-.face1{
-    color: red;
-    background-color: white;
+
+/*******************************************************/
+/* MCQ LAYER */
+.mcqAnswer{
+    height:40px;
+    border-bottom: 1px solid #DBC9C9;
+
+    font-size: 28px;
+}
+.mcqAnswer:hover{
+    background-color: #DBC9C9;
+    cursor: pointer;
 }
 
-.face2{
-    color:green;
+.mcqAnswer span{
+    -webkit-transition: all 1s ease;
+          transition: all 1s ease;
+}
+
+.mcqAnswer .fi-check{
+    margin-right: 20px;
+   -webkit-transition: all 1s ease;
+          transition: all 1s ease;
+}
+
+
+
+/*******************************************************/
+/* WORD LAYER */
+
+.face1{
+    color: #555;
     background-color: white;
+
+}
+
+.wordKey{
+    color: #048904;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ededed;
+}
+.wordAttributes{
+    margin-left: 20px;
+    font-size:15px;
+    color: #988F8F;
+}
+
+.wordVolume{
+    margin-left: 20px;
+    cursor: pointer;
+}
+    .audioMute{
+        cursor: pointer;
+    }
+
+.wordHiragana{
+    font-size: 23px;
+    padding-bottom: 15px;
+  border-bottom: 1px solid #ededed;
+}
+.wordValue{
+    color:  #F00E0E;
+    border-bottom: 1px solid #ededed;
+}
+
+.wordEnglishMean{
+    margin-left: 20px;
+    font-size: 22px;
+    color: #988F8F;
+    font-style: italic;
+}
+.face2{
+    color: #555;
+    background-color: white;
+
 }
 
 .prevBtn{
-	
+    
 }
-.mcq p{
-    height:40px;
-    border-bottom: 1px solid #DBC9C9;
-}
-.mcq p:hover{
-    background-color: #9FD850;
-    cursor: pointer;
 
-}
 .nextBtn{
 	
 }
 
 .face2{
  	display: none;
+
+    -webkit-transition: all 1s ease;
+          transition: all 1s ease;
  }
+ .face2 p{
+    font-size:20px;
+
+ }
+
 .flip {
     -webkit-backface-visibility:hidden;
     -webkit-transform:translateX(0); 
@@ -249,7 +444,10 @@ body{
     to { -moz-transform: rotateY(0); }
 }
 
-/* SET - GUEST VIEW */
+
+/*******************************************************/
+/* HOME PAGE */
+
 .objectThumb{
     width:200px;
     height:200px;

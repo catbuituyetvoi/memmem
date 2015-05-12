@@ -24,8 +24,12 @@ $(document).ready(function(){
 
 	//if Loading the Course, init course
 	if($('.learning').attr("type") == "learning")
-
+	{
 		initCourse();
+	}
+
+	/*******************************************************/
+	/*FILTER LAYER */
 
 		//handle Known button on filter
 		$('.learning').on("click",".known",function(){
@@ -59,8 +63,18 @@ $(document).ready(function(){
            //Load Next words
             nextFilter();
         });
+
+
+
+/*******************************************************/
+	/* LEARNING LAYER */
+
+
+
         //Flip up, flip out to
         $('.learning').on("click",".face1, .face2", function() {
+
+        	
 
 				    var page1 = $('.face1');
 				    var page2 = $('.face2');
@@ -69,6 +83,8 @@ $(document).ready(function(){
 				    
 				    toHide.removeClass('flip in').addClass('flip out').hide();
 				    toShow.removeClass('flip out').addClass('flip in').show();
+
+				  
 				});
 
 
@@ -231,8 +247,16 @@ $(document).ready(function(){
 				//If this answer is correct
 				//Show the popup "Good" in second
 				//Then continue the course, load next Layer
-				showNotify("tuyệt vời!");
-				getNextLayer();
+
+				//showNotify("tuyệt vời!");
+
+				$(this).prepend('<i class="fi-check darkGreen"></i>');
+				setTimeout(function () {
+									//Set this value Empty
+            				getNextLayer();
+
+        					}, 2000);
+				
 			}
 			else
 			{
@@ -268,6 +292,27 @@ $(document).ready(function(){
 				getNextLayer();
 			}
 		});	
+/***************************************************************/
+/*PROCESS AUDIO */
+		$('#notifyIcon').click(function(){
+			$('#wordAudio').trigger("play");
+		});
+
+		$('.learning').on('mouseover','.wordVolume',function(){
+				$('#wordAudio').trigger("play");
+		});
+		//Mute and unmute
+		$('.audioMute').click(function(){
+
+				if( $("#wordAudio").prop('muted') )
+		    {
+		        $("#wordAudio").prop('muted', false);
+		    }
+		    else
+		    {
+		    	$("#wordAudio").prop('muted', true);
+		    }
+		});
 });
 
 //******************************************************************
@@ -589,36 +634,32 @@ function handleNextLayer(currentLayer)
 
 				 					+'<div class="face1 row">'
 					 					+'<div class="small-4 columns">'
-					 						+'<img src="../'+currentLayer["image"]+'" alt="thumbnail">'
+					 						+'<img class="layerImage" src="../'+currentLayer["image"]+'" alt="'+currentLayer["key"]+'">'
 					 					+'</div>'
 					 					+'<div class="small-8 columns">'
 					 						
-						 						+'<h3>'+ currentLayer["key"]  +'</h3>'
-						 						+ '<p>' + currentLayer["hiragana"] + '</p>'
+						 						+'<h2 class="wordKey">'+ currentLayer["key"]  +'<i class="fi-volume size-36 wordVolume"></i></h3>'
+						 						+ '<p class="wordHiragana">' + currentLayer["hiragana"] + '<span class="wordAttributes">( '+currentLayer["attributes"]+' )</span></p>'
 						 						+ '<p>' + currentLayer["kanjiMean"] + '</p>'
-						 						+ '<p>(' + currentLayer["attributes"] + ')</p>'
+						 						
 							 					//+'<h4>'+currentLayer["value"]+'</h4>'
 							 					//+'<h4>Xin chao</h4>'
-							 				+'<div class="small-6 text-center columns">'
-							 						+'<button class="nextButton small-8 button">học tiếp</button>'
-							 					+'</div>'
 						 					
 					 					+'</div>'
 					 				+'</div>'
 
 					 				+'<div class="face2 row">'
 					 					+'<div class="small-4 columns">'
-					 						+'<img src="../'+currentLayer["image"]+'" alt="thumbnail">'
+					 						+'<img class="layerImage" src="../'+ currentLayer["image"]+'" alt="'+currentLayer["value"]+'">'
 					 					+'</div>'
 					 					+'<div class="small-8 columns">'
 					 						
 						 					//	+'<h3>'+currentLayer["key"]+'</h3>'
-							 					+'<h4>'+currentLayer["value"]+'</h4>'
-							 					+'<p>' +currentLayer["englishMean"]+'</p>'
+							 					+'<h2 class="wordValue">'+currentLayer["value"]+ '<span class="wordEnglishMean">'+currentLayer["englishMean"]+'</span></h4>'
 							 					+'<p>' +currentLayer["romaji"]+'</p>'
-							 					+'<div class="small-6 text-center columns">'
-							 						+'<button class="nextButton small-8 button">học tiếp</button>'
-							 					+'</div>'
+							 					+'<p>' +currentLayer["exampleJp"]+'</p>'
+							 					//+'<p>' +currentLayer["exampleVi"]+'</p>'
+							 					//+'<p>' +currentLayer["exampleEn"]+'</p>'
 						 				
 					 					+'</div>'
 					 				+'</div>'
@@ -626,7 +667,7 @@ function handleNextLayer(currentLayer)
 					 				+'<br>'
 					 				+'<div class="row">'
 						 				+'<div class="small-4 small-centered columns">'
-						 					+'<a href="#" class="button alert round "> Thảo luận</a>'
+						 					+'<button class="nextButton small-8 button success">học tiếp</button>'
 						 				+'</div>'
      								+'</div>'
 			 					+'</div>'
@@ -635,6 +676,8 @@ function handleNextLayer(currentLayer)
  					+'</div>';
  		
  		$('.learning').html(html);
+
+ 		$('#wordAudio').trigger("play");
  	}
 
 
@@ -694,7 +737,7 @@ function handleNextLayer(currentLayer)
 
  		$.each(currentLayer["answer"], function(index,answer)
 		{
-			htmlAnswer += '<p class="mcqAnswer" index="'+index+'">'+answer.content+'</p>';
+			htmlAnswer += '<p class="mcqAnswer" index="'+index+'"><span>'+answer.content+'</span></p>';
 		});
 
  		var html = '<div class="mcq">'
@@ -703,7 +746,7 @@ function handleNextLayer(currentLayer)
 	 					+'<div class="small-8 small-centered columns">'
 		 					+'<div class="row">'
 			 					+'<div class="small-4 columns">'
-			 						+	'<img src="../'+currentLayer["image"]+'" alt="thumbnail">'
+			 						+	'<img class="layerImage" src="../'+currentLayer["image"]+'" alt="thumbnail">'
 			 					+'</div>'
 			 					+'<div class="small-8 columns">'
 				 					+'<h3>'+currentLayer["question"]+' ?</h3>'

@@ -11,22 +11,25 @@
 	  </ul>
 		<section class="top-bar-section">
 	    <ul class="right">
-	    		<li>
+	    		 <!--
+	    		 <li>
 	    			<a href="{{ URL::route('set-create') }}">Tạo bộ từ mới</a>
 	    		</li>
 			      <li class="divider"></li>
-			      <li>
-			        <a href="{{ URL::route('view-profile',Auth::user()->username) }}">Profile</a>
+			     -->
+			      <li id="notifyIcon">
+			        <a><i class="fi-web size-36" ></i></a>
 			      </li>
 
 			      <li class="divider"></li>
 			      <li id="popupMenuButton">
-			        <a href="#">*</a>
+			        <a href="#"><i class="fi-align-justify size-36"></i></a>
 			      </li>
+			      <li class="divider"></li>
 
 			    	 @include('include.popupMenu')
 			</ul>
-	  	</section>
+	  </section>
 	</nav>
 	
 @else

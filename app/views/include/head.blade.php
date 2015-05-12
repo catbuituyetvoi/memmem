@@ -11,5 +11,6 @@
 {{ HTML::script('js/learning.js') }}
 {{ HTML::style('css/memmem.css') }}
 
-<script>$(document).foundation();</script>
+{{ HTML::style('css/foundation-icons.css') }}
+
 

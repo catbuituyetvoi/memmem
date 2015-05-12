@@ -1,11 +1,28 @@
 $(document).ready(function(){
 
+  $(document).foundation();
 
+  //******************************************************///
+  /* OPEN AND HIDE POPUP MENU */
+  
+  $('#popupMenuButton').click(function(e){
 
-  $('#popupMenuButton').click(function(){
- 
     $('#popupMenuWrapper').toggle();
+    return false;
+
   });
+
+  $(document).click(function(){  
+    $('#popupMenuWrapper').hide(); //hide the button
+
+  });
+
+  $('#popupMenuWrapper').click(function(e) { //button click class name is myDiv
+    e.stopPropagation();
+  })
+
+/* END */
+
 
 	$('.btnFollowing').hover(function()
     {
@@ -16,17 +33,9 @@ $(document).ready(function(){
         $(this).text("Following");
     });
 
-    $('.face1, .face2').click(function() {
-        var page1 = $('.face1');
-        var page2 = $('.face2');
-        var toHide = page1.is(':visible') ? page1 : page2;
-        var toShow = page2.is(':visible') ? page1 : page2;
-        
-        toHide.removeClass('flip in').addClass('flip out').hide();
-        toShow.removeClass('flip out').addClass('flip in').show();
-    });
 	
 });
+
 function follow(element,id){
 	$.ajax({
   		type: "POST",
