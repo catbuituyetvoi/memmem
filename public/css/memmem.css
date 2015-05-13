@@ -1,6 +1,16 @@
 body{
-    
+    background-color: #E9E9E9;
 }
+
+.learnTitle{
+    -webkit-transition: all 0.3s ease; transition: all 0.3s ease;
+}
+
+.learnTitle:hover{
+    -webkit-transform:scale(1.2);
+transform:scale(1.2);
+}
+
 .right{
     float:right;
 }
@@ -47,10 +57,17 @@ body{
 
 /* TOP NAV BAR */
 .contain-to-grid{
-    background-color: #1CB518;
+    background-color: #83AF9B;
 }
 .topBar{
      background-color: inherit;
+}
+.top-bar, .top-bar ul, .top-bar ul li, .top-bar-section ul li, .divider{
+    height: 60px;
+}
+
+.top-bar ul li  a, .top-bar-section ul li a{
+    line-height: 60px !important;
 }
  
     .topBar .divider{
@@ -59,6 +76,11 @@ body{
 
     .top-bar-section ul li{
         background: none !important;
+    }
+    .top-bar-section li a{
+        background: none;
+
+        line-height: 60px;
     }
 
 .message{
@@ -239,7 +261,7 @@ body{
 .learning{
     position: relative;
     height: 450px;
-    border:ridge 4px #F5F5F5;
+ 
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-topright:6px;
     -moz-border-radius-bottomleft:5px;
@@ -255,6 +277,11 @@ body{
     
     z-index: 1;
     padding: 20px;
+
+     box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.08);
+
+     background-color: #FFFFFF;
+
 
 }
 .layerImage{

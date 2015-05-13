@@ -11,7 +11,7 @@
 			
 			<div class="row">
 				<div class="small-4 columns">
-					<h3>{{ $object->title }}</h3>
+					<h3 class="learnTitle">{{ $object->title }}</h3>
 				</div>
 				<div class="small-4 columns">
 					<i class="audioMute fi-volume size-36"></i>

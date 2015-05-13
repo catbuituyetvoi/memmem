@@ -9,6 +9,26 @@
 		    <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
 		    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 	  </ul>
+	 
+
+	  <section class="top-bar-section show-for-small-only">
+	    <ul class="right">
+	    		 <!--
+	    		 <li>
+	    			<a href="{{ URL::route('set-create') }}">Tạo bộ từ mới</a>
+	    		</li>
+			      <li class="divider"></li>
+			     -->
+			      <li class="name">
+			        <a>Tiến độ học tập</a>
+			      </li>
+			      <li class="name">
+			        <a>Trang cá nhân</a>
+			      </li>
+			  
+			</ul>
+	  </section>
+
 		<section class="top-bar-section">
 	    <ul class="right">
 	    		 <!--
@@ -17,15 +37,16 @@
 	    		</li>
 			      <li class="divider"></li>
 			     -->
+			     <li id="notifyIcon">
+			        <a><i class="fi-page-multiple size-36" ></i></a>
+			      </li>
+
 			      <li id="notifyIcon">
 			        <a><i class="fi-web size-36" ></i></a>
 			      </li>
-
-			      <li class="divider"></li>
-			      <li id="popupMenuButton">
+			      <li id="popupMenuButton" class="hide-for-small-only">
 			        <a href="#"><i class="fi-align-justify size-36"></i></a>
 			      </li>
-			      <li class="divider"></li>
 
 			    	 @include('include.popupMenu')
 			</ul>
