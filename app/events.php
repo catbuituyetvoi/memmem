@@ -59,6 +59,8 @@
 	//Event for Leaning stored in session
 	Event::listen('set.learnStart', function($data)
 	{
+		//if is start learning, create and save a COURSE
+		//After learning COURSE, delete it
 		//SetCollection::
 		//			whereRaw('user_id = ?', array(Auth::id()))
 		//			->whereRaw('object_id = ?', array($data["object_id"]))

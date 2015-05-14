@@ -249,6 +249,7 @@ $(document).ready(function(){
 				//Then continue the course, load next Layer
 
 				//showNotify("tuyệt vời!");
+	
 
 				$(this).prepend('<i class="fi-check darkGreen"></i>');
 				setTimeout(function () {
@@ -749,7 +750,7 @@ function handleNextLayer(currentLayer)
 			 						+	'<img class="layerImage" src="../'+currentLayer["image"]+'" alt="thumbnail">'
 			 					+'</div>'
 			 					+'<div class="small-8 columns">'
-				 					+'<h3>'+currentLayer["question"]+' ?</h3>'
+				 					+'<h3 class="mcqQuestion">'+currentLayer["question"]+' ?</h3>'
 				 					+'<h5>Chọn đáp án đúng</h5>'
 				 					+'<h4></h4> '+ htmlAnswer +'</h4>'
 			 					+'</div>'

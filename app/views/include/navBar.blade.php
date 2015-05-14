@@ -37,17 +37,18 @@
 	    		</li>
 			      <li class="divider"></li>
 			     -->
-			     <li id="notifyIcon">
+			     <li id="popupLearningButton" class="topbarIcon">
 			        <a><i class="fi-page-multiple size-36" ></i></a>
 			      </li>
 
-			      <li id="notifyIcon">
+			      <li id="notifyIcon" class="topbarIcon">
 			        <a><i class="fi-web size-36" ></i></a>
 			      </li>
-			      <li id="popupMenuButton" class="hide-for-small-only">
+			      <li class="topbarIcon" id="popupMenuButton" class="hide-for-small-only">
 			        <a href="#"><i class="fi-align-justify size-36"></i></a>
 			      </li>
-
+			      
+							 @include('include.popupLearning')
 			    	 @include('include.popupMenu')
 			</ul>
 	  </section>

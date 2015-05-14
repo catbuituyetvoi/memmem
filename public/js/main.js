@@ -13,7 +13,7 @@ $(document).ready(function(){
   });
 
   $(document).click(function(){  
-    $('#popupMenuWrapper').hide(); //hide the button
+    $('.topPopup').hide(); //hide the button
 
   });
 
@@ -23,14 +23,32 @@ $(document).ready(function(){
 
 /* END */
 
+//******************************************************///
+  /* OPEN AND HIDE POPUP MENU */
+  
+  $('#popupLearningButton').click(function(e){
 
-	$('.btnFollowing').hover(function()
+    $('#popupLearningWrapper').toggle();
+    return false;
+
+  });
+
+
+  $('#popupLearningWrapper').click(function(e) { //button click class name is myDiv
+    e.stopPropagation();
+  })
+
+/* END */
+
+
+
+	$('.btnFollowing').on('mouseover',function()
     {
-        $(this).text("Unfollow");
+        $(this).text("Bỏ theo dõi");
 
     },function()
     {
-        $(this).text("Following");
+        $(this).text("Đang theo dõi");
     });
 
 	

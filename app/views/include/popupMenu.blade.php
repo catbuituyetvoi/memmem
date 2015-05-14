@@ -1,6 +1,6 @@
-<div id="popupMenuWrapper">
+<div id="popupMenuWrapper" class="topPopup">
 
-		<div class="popup-user-info">
+<div class="popup-user-info">
 			<div class="row">
 				<div class="small-4 columns no-padding">
 					<div class="popup-avatar" style="background: url( {{ URL::asset('img/97.jpg') }}) no-repeat;">
@@ -12,7 +12,8 @@
 				</div>
 			</div>
 			</div>
-	<ul class="popup-menu-icon-wrap small-block-grid-1 medium-block-grid-2 large-block-grid-3">
+
+	<ul class="popup-menu-icon-wrap darkGray small-block-grid-1 medium-block-grid-2 large-block-grid-3">
 
 		<li>
 			<p class="text-center"><i class="fi-graph-bar size-48"></i></p>

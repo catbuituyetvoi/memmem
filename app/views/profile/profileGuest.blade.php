@@ -3,9 +3,9 @@
 @section('content')
 
 <div class="row">
-<div class="small-10 small-centered columns">
+<div class="profileGuest small-10 small-centered columns">
 
-	<h3> {{ $user->username }} </h3>
+	<h3 class="text-center darkGray"> {{ $user->username }} </h3>
 
 	<br>
 	Follower:{{ $user->follower->count() }} 

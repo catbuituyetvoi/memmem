@@ -28,7 +28,7 @@ class HomeController extends BaseController {
 								whereRaw('user_id = ?', array(Auth::id()))->get();
 
 			$data["setLearned"] = SetCollection::whereRaw('user_id = ? and  learned = 1', array(Auth::id()))
-									->get();
+									->get(); 
 
 			$followingList = DB::table('follower')
 										->whereRaw('follow_id = ?', array(Auth::id()))

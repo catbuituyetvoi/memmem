@@ -11,7 +11,7 @@ class LearnController extends BaseController
 	 * @return View::Learn
 	 */
 
-	public function startLearn($objectId)
+	public function startLearn( $objectId )
 	{
 		$data["object_id"] = $objectId;
 
