@@ -176,12 +176,13 @@ class LearnController extends BaseController
 		Event::fire('set.learnEnd',array($data));
 	}
 
-	//If filtered complete, call this function
+
 	/**
-	 * Create a new cache repository with the given implementation.
+	 * If filtered complete, then update and this will be a "Learned Object"
 	 *
-	 * @param  \Illuminate\Cache\StoreInterface  $store
-	 * @return \Illuminate\Cache\Repository
+	 * Save to database 
+	 * @param  $objectId
+	 * @return View
 	 */
 	public function ajaxFilter($objectId)
 	{
@@ -193,13 +194,8 @@ class LearnController extends BaseController
 		//loop i, get array data in filter result
 		$i = 0;
 
-		$count  = SetCollection::
-					whereRaw('user_id = ?', array(Auth::id()))
-					->whereRaw('object_id = ?', array($objectId))
-					->count();
-
-		//If this set is not add by this User, return.
-		if($count == 0){
+		//If this Object is not add by this User, return.
+		if( !Auth::user()->ownThisObject( $objectId )){
 			return Response::json(0);
 		}
 
@@ -207,7 +203,6 @@ class LearnController extends BaseController
 		{
 			foreach($word as $words)
 			{
-
 				WordCollectionEN::create(array(
 						'user_id' 	=> Auth::id(),
 						'object_id'	=> $objectId,
@@ -237,7 +232,7 @@ class LearnController extends BaseController
 			}
 		}
 
-		SetCollection::
+		ObjectCollection::
 			whereRaw('user_id = ?', array(Auth::id()))
 				->whereRaw('object_id = ?', array($objectId))
 				->update(array('learned' => 1));

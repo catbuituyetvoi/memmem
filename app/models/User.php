@@ -27,6 +27,24 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	protected $hidden = array('password', 'remember_token');
 
+	public function registerValidator()
+	{
+		return array(
+					'email' 		=> 'required|max:50|email|unique:users',
+					'username'		=> 'required|alpha_dash|max:20|min:3|unique:users',
+					'password'		=> 'required|min:6',
+					'password_again'=> 'required|same:password'
+				);
+	}
+
+	public function loginValidator()
+	{
+		return array(
+					'username' 	=> 'required',
+					'password'	=> 'required'
+				);
+	}
+
 	public function follower()
 	{
     	return $this->belongsToMany('User', 'follower', 'follow_id', 'user_id');
@@ -47,9 +65,29 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->follower->contains($id);
 	}
 
-	public function set()
+	public function addedSet()
 	{
-		return $this->hasMany('SetCollection','user_id');
+		return $this->belongsToMany('Set','setcollection');
+	}
+
+	public function addedObject()
+	{
+		return $this->belongsToMany('Object','objectcollection');
+	}
+
+	public function ownThisSet($id)
+	{
+		return $this->addedSet->contains($id);
+	}
+
+	public function ownThisObject($id)
+	{
+		return $this->addedObject->contains($id);
+	}
+
+	public function learningObject()
+	{
+		return $this->hasMany('ObjectCollection');
 	}
 
 }

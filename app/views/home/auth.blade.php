@@ -7,8 +7,7 @@
 <div class="row">
 <div class="small-10 small-centered columns">
 
-
-@if( $activitiesList != null )
+@if( $activitiesList  )
 	
 	<h4>Activities</h4>
 
@@ -58,39 +57,40 @@
 
 <br><br>
 
-@if($setLearned != null)
+@if( $learningObject->isEmpty() )
 
-	<h2>Chủ đề đang học</h2>
+	Chưa có chủ đề nào đang học!.
+
+@else
+
+<h2>Chủ đề đang học</h2>
 	
 	<ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4">
 
-	@foreach($setLearned as $set)
+	@foreach($learningObject as $object)
 	
 	<li>
-		@if($set->course_id != 0)
 
-			<br> <a href="{{ URL::route('set-view', $set->set_id) }}"><img width="200" height="200" src="img/set/{{{ $set->set_id }}}.jpg"/></a> 
-			<p>{{ Object::find($set->object_id)->title }}</p>
+			<p>{{ $object->title }}</p>
 
-			<br>Author: {{ Set::find($set->set_id)->author->username }}
-
-			<a class="button" href="{{ URL::route('set-learn',$set->object_id) }}">Học tiêp</a>
-
-		@endif
 	</li>
 
 	@endforeach
 	</ul>
 
-@else
-
-Chưa thêm bộ từ nào để học, hãy tìm và học một chủ đề!!!
 
 @endif
 
-@if($setAdded != null)
 
-	<h2>Bộ từ được thêm vào</h2>
+
+@if( $setAdded->isEmpty() )
+
+	Chưa thêm bộ từ nào vào bộ sưu tập của bạn, hãy tìm, thêm và trải nghiệm thôi ^^
+
+@else
+
+
+<h2>Bộ từ được thêm vào</h2>
 
 	<ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4">
 
@@ -98,12 +98,12 @@ Chưa thêm bộ từ nào để học, hãy tìm và học một chủ đề!!!
 	
 
 	<li>
-		<a href="{{ URL::route('set-view',$set->set_id) }}">
-			<img width="200" height="200" src="img/set/{{ $set->set_id }}.jpg"/>
+		<a href="{{ URL::route('set-view',$set->id) }}">
+			<img width="200" height="200" src="img/set/{{ $set->id }}.jpg"/>
 		</a>
-		<br> <a href="{{ URL::route('set-view', $set->set_id) }}">{{ $set->title }}</a> 
+		<br> <a href="{{ URL::route('set-view', $set->id) }}">{{ $set->title }}</a> 
 
-		<br>Author: {{ Set::find($set->set_id)->author->username }}
+		<br>Author: {{ $set->author->username }}
 		
 		
 	</li>
@@ -111,12 +111,8 @@ Chưa thêm bộ từ nào để học, hãy tìm và học một chủ đề!!!
 	@endforeach
 	</ul>
 
-@else
-
-Chưa thêm bộ từ nào vào bộ sưu tập của bạn, hãy tìm, thêm và trải nghiệm thôi ^^
-
-
 @endif
+
 
 
 

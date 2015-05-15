@@ -22,18 +22,12 @@ class UserController extends BaseController {
 	 */
 		public function postRegister() 
 		{
-			$validator = Validator::make(Input::all(),
-				array(
-					'email' 		=> 'required|max:50|email|unique:users',
-					'username'		=> 'required|alpha_dash|max:20|min:3|unique:users',
-					'password'		=> 'required|min:6',
-					'password_again'=> 'required|same:password'
-				)
+			$validator = Validator::make(Input::all(), User::registerValidator()
 			);
 
 			if($validator->fails()) 
 			{
-				return Redirect::route('user-register')
+				return Redirect::back()
 					->withErrors($validator)
 					->withInput(); 
 					  // redirect with inputs
@@ -58,10 +52,10 @@ class UserController extends BaseController {
 
 				if($userdata) 
 				{		
-					Session::flash('message', 'Dang ki thanh  cong');
+					Session::flash('message','Dang ki thanh cong');
 
 					echo Session::get('message');
-
+					//Message after Register successful
 					ob_end_flush();
 					flush();
 					usleep(8000000);
@@ -113,10 +107,7 @@ class UserController extends BaseController {
 		public function postLogin() 
 		{
 			$validator = Validator::make(Input::all(),
-				array(
-					'username' 	=> 'required',
-					'password'	=> 'required'
-				)
+				User::loginValidator()
 			);
 
 			if($validator->fails()) 
@@ -124,7 +115,7 @@ class UserController extends BaseController {
 				return Redirect::back()
 					->withErrors($validator)
 					->withInput(); 
-					  // redirect with inputs
+					  // redirect with inputs and error
 			} 
 			else 
 			{

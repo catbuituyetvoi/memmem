@@ -120,25 +120,20 @@ class SetController extends BaseController
 
 		if($data['set'])
 		{
-			$count  = SetCollection::
-				whereRaw('user_id = ?', array(Auth::id()))
-					->whereRaw('set_id = ?', array($setId))
-					->count();
-
 			//If user is added this set
 			//Therefore in SetCollection must have rows have this set
-			if($count != 0)
+			if( Auth::user()->ownThisSet( $setId ) )
 			{
-				$countObjectLearned = SetCollection::whereRaw('user_id = ? and set_id = ? and learned = 1 ORDER BY updated_at',array(Auth::id(),$setId))
-				->count();
+				//$countObjectLearned = SetCollection::whereRaw('user_id = ? and set_id = ? ORDER BY updated_at',array(Auth::id(),$setId))
+			//	->count();
 			
 
-				if($countObjectLearned != 0)
-				{
-				    $data["currentLearningObject"] = SetCollection::whereRaw('user_id = ? and set_id = ? and learned = 1 ORDER BY updated_at',array(Auth::id(),$setId))
-					->first()
-					->currentLearningObject;
-			     }
+				//if($countObjectLearned != 0)
+			//	{
+				//    $data["currentLearningObject"] = SetCollection::whereRaw('user_id = ? and set_id = ? and learned = 1 ORDER BY updated_at',array(Auth::id(),$setId))
+				//	->first()
+				//	->currentLearningObject;
+			   //  }
 
 				return View::make('set.addedView',$data);
 			}
@@ -163,6 +158,4 @@ class SetController extends BaseController
 		
 		return Redirect::back();
 	}
-
-
 }

@@ -1,9 +1,10 @@
 <?php
+
+	//This event fire at
+	//User add add a set to their collection
 	Event::listen('set.addToCollection', function($data)
 	{
-		//This event fire at
-		//User 
-		$setId = $data["setId"];
+			$setId = $data["setId"];
 
     	$set = Set::find( $setId );
 
@@ -13,23 +14,33 @@
 								whereRaw('user_id = ?', array(Auth::id()))
 									->whereRaw('set_id = ?', array( $setId ))
 									->count();
-
+		//Ìf this Set Exists
 		if($count == 0)
 		{
-			foreach( $set->object as $object )
-			{
-		    	SetCollection::create(
+			//Add this set to user's collection
+			SetCollection::create(
 						array(
 							'user_id' => Auth::id(),
 							'set_id' => $data["setId"],
-							'object_id' => $object->id,
-							'learned' => 0,
 							'course_id' => 0
 							)
 						);
-	    	}
 
-	    	//Add to Activities, tell that user was add this set
+			//Add all object of this set
+			foreach( $set->object as $object )
+			{
+				
+		    	ObjectCollection::create(
+						array(
+							'user_id' => Auth::id(),
+							'object_id' => $object->id,
+							'learned' => 0,
+							//'language' => $set->language
+							)
+						);
+	    }
+
+	    	//Add to Activities, tell other that user was add this set
 	    	Activities::create(
 	    					array
 	    					(
@@ -39,6 +50,8 @@
 	    					)
 	    				);
     	}
+
+  
    
 	});
 

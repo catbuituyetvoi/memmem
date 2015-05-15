@@ -1,6 +1,11 @@
 <div class="contain-to-grid">
 
 @if(Auth::check())
+
+	<?php
+		$learningObject = Auth::user()->learningObject;
+	?>
+
 	<nav class="topBar top-bar" data-topbar role="navigation">
 		<ul class="title-area">
 		    <li class="name">
@@ -39,6 +44,7 @@
 			     -->
 			     <li id="popupLearningButton" class="topbarIcon">
 			        <a><i class="fi-page-multiple size-36" ></i></a>
+			        <span class="jewelNotify"> {{ $count = $learningObject->count() }}
 			      </li>
 
 			      <li id="notifyIcon" class="topbarIcon">

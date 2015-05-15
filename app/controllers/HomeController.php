@@ -24,11 +24,14 @@ class HomeController extends BaseController {
 
 		if(Auth::check())
 		{	
-			$data["setAdded"] = SetCollection::
-								whereRaw('user_id = ?', array(Auth::id()))->get();
+			//get all set this user added
+			$data["setAdded"] = Auth::user()->addedSet;
 
-			$data["setLearned"] = SetCollection::whereRaw('user_id = ? and  learned = 1', array(Auth::id()))
-									->get(); 
+			//$data["setLearned"] = SetCollection::whereRaw('user_id = ? and  learned = 1', array(Auth::id()))
+									//->get();
+
+			$data["learningObject"] = Auth::user()->learningObject;
+
 
 			$followingList = DB::table('follower')
 										->whereRaw('follow_id = ?', array(Auth::id()))

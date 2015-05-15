@@ -5,27 +5,25 @@
 
 	<ul class="darkGray small-block-grid-1 medium-block-grid-2 large-block-grid-3">
 
-	<?php $setLearned = SetCollection::whereRaw('user_id = ? and  learned = 1', array(Auth::id()))
-									->get(); 
-		?>
 
-	@if($setLearned != null)
 
-			@foreach($setLearned as $set)
+	@if( $count  )
+
+			@foreach($learningObject as $object)
 			
 			<li>
-				@if($set->course_id != 0)
+		
 					
-					<div class="popup-avatar" style="background: url( {{ URL::asset('img/set/'.$set->set_id.'.jpg') }}) no-repeat;">
+					<div class="popup-avatar" style="background: url( {{ URL::asset('img/object/'.$object->id.'/thumb.jpg') }}) no-repeat;">
 					
-				@endif
+		
 			</li>
 
 			@endforeach
 
 		@else
 
-		Chưa thêm bộ từ nào để học, hãy tìm và học một chủ đề!!!
+		Chưa học chủ đề nào
 
 		@endif
 		
