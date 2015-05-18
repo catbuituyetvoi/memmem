@@ -21,52 +21,26 @@ class LearnController extends BaseController
 
 		$language = $data["object"]->language;
 
-		$data["setCollection"] = SetCollection::
-				whereRaw('user_id = ?', array(Auth::id()))
-				->whereRaw('object_id = ?', array($objectId))
-				->first();
+		$data["objectCollection"] = ObjectCollection::
+															whereRaw('user_id = ?', array(Auth::id()))
+															->whereRaw('object_id = ?', array($objectId))
+															->first();
 		
-		if($data["setCollection"])
+		if($data["objectCollection"])
 		{
-			if($data["setCollection"]->learned == 0)
+			//If it is not learned ( learned = 0) 
+			//It will need filter before Learn
+			if($data["objectCollection"]->learned == 0)
 			{
 				$data["object"] = Object::find( $objectId );
 
 				return View::make('learn.filter',$data);
 			}
-			//Get array of whole words where user choose to learn (learn=1)
-			if($language == "en")
-			{
-				$wordlist = WordCollectionEN::
-							whereRaw('user_id = ?', array(Auth::id()))
-							->whereRaw('object_id = ?', array($objectId))
-							->whereRaw('learn = 1')
-							->lists('word_id');
-
-				$data["word"] = WordEN::
-									whereIn('id',$wordlist)
-									->get()
-									->toArray();
-			}
-			//Get array of whole words where user choose to learn (learn=1)
-			if($language == "jp")
-			{
-				$wordlist = WordCollectionJP::
-							whereRaw('user_id = ?', array(Auth::id()))
-							->whereRaw('object_id = ?', array($objectId))
-							->whereRaw('learn = 1')
-							->lists('word_id');
-
-				$data["word"] = WordJP::
-									whereIn('id',$wordlist)
-									->get()
-									->toArray();
-			}
-
+			
 			//If wwant to save currrent course id
 			//$data["course_id"] = Redis::incr('course_id');
 			//$data["session"] = Session::get($data["course_id"]);
-			Event::fire('set.learnStart',array($data));
+			//Event::fire('set.learnStart',array($data));
 			
 			return View::make('learn.learn',$data);
 		}
@@ -76,65 +50,104 @@ class LearnController extends BaseController
 
 
 	/**
-	 * Create a new cache repository with the given implementation.
+	 * Get Course Data for the LEarning
 	 *
-	 * @param  \Illuminate\Cache\StoreInterface  $store
+	 * get all data for Course
+	 * These data will be process by Jquery
+	 * Final, render as Layer: Word. MCQ. Typing. etc.
+	 *
+	 * @param $objectId
 	 * @return \Illuminate\Cache\Repository
 	 */
-	//get all data for Course
 	public function getCourseData($objectId){
+		//There are some type of Learning Language 
+		// Therefore, They have different structure 
+		//So, we need to distrubte them as different Table
+
+		/****************************************
+		* The data STRUCTURE 
+		* 
+		* array[wordData,ListOfScore,ObjectSetting] 
+		*
+		* id - word_id - key - value ...(other WORD attributes)
+		*
+		* 
+		* 
+		* id is id of WORD COLLECTION (for easy UPDATE them)
+		/******************************************/
 
 		//Get array of whole words where user choose to learn (learn=1)
 		if( Object::find($objectId)->language == "en")
 		{
-
-			$wordlist = WordCollectionEN::
+			$wordCollection = WordCollectionEN::
 							whereRaw('user_id = ?', array(Auth::id()))
 							->whereRaw('object_id = ?', array($objectId))
-							->whereRaw('learn = 1')
-							->lists('word_id');
+							->whereRaw('learn = 1')->get();
+			//				->lists('word_id');
 
-			$wordlist = WordEN::whereIn('id',$wordlist)
+			//$listId	= $wordCollection->lists('word_id');
+
+			$wordlist = WordEN::whereIn('id',$listId)
 									->get()
 									->toArray();
 		}
-
 		//Get array of whole words where user choose to learn (learn=1)
 		if( Object::find($objectId)->language == "jp")
 		{
-
-			$wordlist = WordCollectionJP::
+			$wordCollection = WordCollectionJP::
 							whereRaw('user_id = ?', array(Auth::id()))
 							->whereRaw('object_id = ?', array($objectId))
 							->whereRaw('learn = 1')
-							->lists('word_id');
+							->get();
 
-			$wordlist = WordJP::whereIn('id',$wordlist)
-								->get()
-								->toArray();
+			//$listId	= $wordCollection->lists('word_id');
+
+			//$wordlist = WordJP::whereIn('id',$listId)
+								//->get()
+								//->toArray();
 		}
-		$data = array();
-		//Shuffle word list of the course
-		shuffle($wordlist);
 
-		foreach ($wordlist as $word) 
+		$responseData = array();
+
+		$wordData = array();
+		
+		$word_score = array();
+		//This data, include id and wordId got from WordCollection, 
+		//Other data got from WORD original table
+		foreach ($wordCollection as $word) 
 		{
-			$word_data = $word;
+			//Copy all ORIGINAL WORD attributes to new Array: word_data()
+			$word_data = $word->word->toArray();
 
 
-			$word_data["image"] = 'img/object/'.$objectId.'/'.$word["id"].'.jpg';
-
-
+			//Add Image for this word
+			//Because Image is get by Id, and this field not save in database
+			$word_data["image"] = 'img/object/'.$objectId.'/'.$word["word_id"].'.jpg';
+			//$word_data["score"] = $wordCollection::whereRaw('word_id = ?',array($word.id))->get()->toArray
 			//Push thís word to array of Course
-			array_push($data,$word_data);
+			$word_data["id"] = $word["id"];
+			$word_data["word_id"] = $word["word_id"];
+			$word_data["word_id"] = $word["word_id"];
+
+			$word_score[ $word["id"] ] = $word["score"];
+
+			array_push($wordData,$word_data);
 		}
+		//Shuffle word list of the course
+		shuffle($wordData);
+
+		array_push($responseData, $wordData);
+
+		array_push($responseData, $word_score);
+
 		//This json data will be process by Javascript
 		//To generate a complete course from this data
-		//Include MCQ, TFQ, typing Quiz.
-		return Response::json( $data );
+		//Include MCQ, TFQ, typing Quiz.s
+		return Response::json( $responseData );
 	}
 	//Generate Filter Data
 	//Include all word for user choose which need to learn
+	//Filter data will not flush
 	/**
 	 * Create a new cache repository with the given implementation.
 	 *
@@ -198,7 +211,7 @@ class LearnController extends BaseController
 		if( !Auth::user()->ownThisObject( $objectId )){
 			return Response::json(0);
 		}
-
+		//Update the word as R
 		if( $currentObject->language == "en")
 		{
 			foreach($word as $words)
@@ -239,5 +252,17 @@ class LearnController extends BaseController
 
 		//Return 1 if successful Follow and 0 if  Unfollow
         return Response::json(1);
+	}
+
+
+
+	public function trueMcq($objectId)
+	{
+		$wordId = Input::get('id');
+		//Check type
+		if( Object::find($objectId)->language == "jp" )
+		{
+			WordCollectionJP::find($wordId)->update("");
+		}
 	}
 }

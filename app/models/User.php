@@ -27,7 +27,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	protected $hidden = array('password', 'remember_token');
 
-	public function registerValidator()
+	public static function registerValidator()
 	{
 		return array(
 					'email' 		=> 'required|max:50|email|unique:users',
@@ -37,7 +37,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 				);
 	}
 
-	public function loginValidator()
+	public static 
+
+	function loginValidator()
 	{
 		return array(
 					'username' 	=> 'required',
@@ -87,7 +89,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function learningObject()
 	{
-		return $this->hasMany('ObjectCollection');
+		return $this->hasMany('ObjectCollection')->whereRaw('learned = 1');
 	}
 
 }

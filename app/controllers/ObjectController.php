@@ -90,11 +90,12 @@ class ObjectController extends BaseController
 	 * @return \Illuminate\Cache\Repository
 	 */
 
-	public function viewObject($setId)
+	public function viewObject($objectId)
 	{
-		$data['set'] = Set::find($setId);
-
-		if($data['set'])
+		//Find the object
+		$data['object'] = Object::find($objectId);
+		//If Object exists
+		if($data['object'])
 		{
 			$count  = Object::
 						whereRaw('user_id = ?', array(Auth::id()))
@@ -102,9 +103,9 @@ class ObjectController extends BaseController
 							->count();
 
 			if($count == 1)
-				return View::make('set.addedView',$data);
+				return View::make('object.addedView',$data);
 
-				return View::make('set.guestView',$data);
+				return View::make('object.guestView',$data);
 		}
 
 		return View::make('set.errNotFound');

@@ -3,14 +3,27 @@ var current = 0,
 	words = [],
 	//current Layer which is showing
 	currentLayer = [],
+	//List SCORE of each word 
+	scoreList = [],
 	//list of all layers
 	layerList = [],
 	// return from generateCourse()
-
 	course = [],
 	//arr of Result from Filtering
 	//This will use for post to server and save to database
-	arrResult = [];
+	arrResult = [],
+	//count how many Enter pressed in typing Full Layer
+	//Start with 3;
+	//With Each Enter, countEnter will subtract 1
+	//countEnter -= 1;
+	//And will restore this value for NEXT FULL TYPING LAYER
+	//The SCORE of typing Full Layer calculate by:
+	//countEnter * 5
+	//So if the Enter is press more, the SCORE will subtract heavy
+	//For First 3 Enter press, SCORE WILL > 0;
+	//Further, countEnter is < 0, therefore, the SCORE is < 0 too.
+	//Therefore, if the first Answer of typingFull is true, SCORE = 15
+	countEnter = 3;
 
 $(document).ready(function(){
 
@@ -69,13 +82,8 @@ $(document).ready(function(){
 /*******************************************************/
 	/* LEARNING LAYER */
 
-
-
         //Flip up, flip out to
         $('.learning').on("click",".face1, .face2", function() {
-
-        	
-
 				    var page1 = $('.face1');
 				    var page2 = $('.face2');
 				    var toHide = page1.is(':visible') ? page1 : page2;
@@ -83,8 +91,6 @@ $(document).ready(function(){
 				    
 				    toHide.removeClass('flip in').addClass('flip out').hide();
 				    toShow.removeClass('flip out').addClass('flip in').show();
-
-				  
 				});
 
 
@@ -95,7 +101,7 @@ $(document).ready(function(){
 	     	getNextLayer();
 	     	//Loading next Layer and focus on first input
 	     	//If next layer is "typing" type
-	     	focusOnFirstInput();
+	     	
 	    });
 	   	//Click on any Input of Typing Question
 	    $('.learning').on('click',"input", function(e)
@@ -141,7 +147,8 @@ $(document).ready(function(){
 	    .on('keyup',".typinganswer input",function(e)
 			{
 				//process Back button, the prev input will focus
-				if(e.keyCode==8){
+				if(e.keyCode == 8)
+				{
 					$(this).prev().select();
 					return;
 				}
@@ -169,6 +176,12 @@ $(document).ready(function(){
 					//}
 					//handle when Enter key press
 					if(e.keyCode == 13){
+						//Each time the user is press Enter
+						//subtract countEnter, so the SCORE will suctract base countEnter
+						//the SCORE of this question is calculate by countEnter * 5
+						countEnter -= 1;
+
+						console.log("countEnter is " + countEnter);
 
 						var thisAnswer = $(this);
 						//get result from which user typing
@@ -249,7 +262,7 @@ $(document).ready(function(){
 				//Then continue the course, load next Layer
 
 				//showNotify("tuyệt vời!");
-	
+				addScoreForTrueMCQ();
 
 				$(this).prepend('<i class="fi-check darkGreen"></i>');
 				setTimeout(function () {
@@ -278,7 +291,7 @@ $(document).ready(function(){
 				//To remind user about this mistake word
 				console.log("incorrectWordId" +incorrectWordId);
 
-				var newWord = findWordByKeyId(incorrectWordId)[0];
+				var newWord = findWordById(incorrectWordId)[0];
 				//If MCQ is false,
 				//Create a WORD LAsYER at next Layer
 				var newLayer = {};
@@ -326,7 +339,7 @@ function showNotify(message){
 //Find a Word in wordlist
 //By attribute Key Id
 //Find where wordId = keyId in "words" array
-function findWordByKeyId(keyId){
+function findWordById(keyId){
     return $.grep(words, function(word){
       return word.id == keyId;
     });
@@ -341,6 +354,52 @@ function checkMCQ(answer)
 		return true;
 
 	//return false;
+}
+//Add score to current Variable
+//Save to Database IF MCQ ANSWER is TRUE
+//Using AJAX to save
+// PARAM: id of WORDCOLLECTION of this word
+// AcTION: +10 SCORE for this word
+function addScoreForTrueMCQ()
+{
+		var wordId = currentLayer["id"];
+		//Add Score for Local Browser Variable
+		scoreList[ wordId ] += 10;
+		//alert("else");
+		$.ajax({
+			type:"post",
+			url: window.location.href + "/truemcq",
+			dataType:"json",
+			data:{ id: wordId },
+			success:function()
+			{
+				console.log("success save TRUE mcq")
+			},
+			error:function(a){
+				setSignalMsg(a.responseText)
+			}
+		});
+}
+//Save to Database IF MCQ ANSWER is TRUE
+//Using AJAX to save
+// PARAM: id of WORDCOLLECTION of this word
+// AcTION: +10 SCORE for this word
+function saveFalseMCQ(questionId,incorrectId)
+{
+	//alert("else");
+		$.ajax({
+			type:"GET",
+			url: window.location.href + "/truemcq",
+			dataType:"json",
+			data:{ id: wordId },
+			success:function(filterList)
+			{
+				console.log("success save TRUE mcq")
+			},
+			error:function(a){
+				setSignalMsg(a.responseText)
+			}
+		});
 }
 //on typing mode, focus on First Input
 //take user ready to typing the answer.
@@ -456,7 +515,11 @@ function initCourse()
 			success:function(wordList)
 			{
 				//get Wordlist
-				words = wordList.slice(0);
+				//GET FIRST ARRAY OF Response
+				//WORD LIST IS in FIRST ELEMENT OF RESPONSE ARRAY
+				words = wordList.slice(0)[0];
+				//SCORE LIST is in SECOND ELEMENT OF RESPONSE ARRAY
+				scoreList = wordList.slice(0)[1];
 				//Generate course from word list
 				layerList = generateCourse(words);
 				//get data of first Layer
@@ -475,6 +538,7 @@ function initCourse()
 		});
 }
 
+//PARAM: the word List to be learning
 //generate a layer list for course
 //Include word Layers, typing Layers, MCQ and more and more...
 function generateCourse(wordList)
@@ -496,7 +560,7 @@ function generateCourse(wordList)
 				var selectWord = getRandomInt(0,2);
 
 				mcqLayer.type = "mcq";
-				mcqLayer.keyId = wordList[selectWord].id;
+				mcqLayer.id = wordList[selectWord].id;
 				mcqLayer.image = wordList[selectWord].image;
 				mcqLayer.question = wordList[selectWord].value;
 
@@ -506,7 +570,7 @@ function generateCourse(wordList)
 					//keyId using for Last Layer
 					//If answer is incorrect
 					//Make a True False Layer
-					answer.keyId = wordList[i].id;
+					answer.id = wordList[i].id;
 					answer.content = wordList[i].key;
 					answer.mean = wordList[i].value;
 					answer.value = false;
@@ -524,7 +588,7 @@ function generateCourse(wordList)
 				//Loop Shuffle Arr to find the correct Answer
 				$.each(answerList, function(index,word)
 				{
-					if( word.keyId == wordList[selectWord].id)
+					if( word.id == wordList[selectWord].id)
 						mcqLayer.correctAnswer = index;
 				});
 
@@ -544,13 +608,11 @@ function generateCourse(wordList)
 			//Generate a typing_FULL question
 			//var typingFullLayer = {};
 
-			
-
 			//Push this word to Layer
 			course.push(wordLayer);
 			//Also generate a typing_full Layer
 			var typingFullLayer = generateTypingFullLayer(word);
-			//course.push( typingFullLayer );
+			course.push( typingFullLayer );
 
 		});
 
@@ -564,14 +626,14 @@ function generateTypingFullLayer(word){
 	//Generate a typing_char
 			var typingFullLayer = {};
 
-			typingFullLayer.keyId = word.id;
+			typingFullLayer.id = word.id;
 			typingFullLayer.image = word.image;
 			typingFullLayer.type = "typing_full";
 			typingFullLayer.answerJapanese = word.key;
 			typingFullLayer.answerRomaji = word.romaji;
 			typingFullLayer.question = word.value;
 
-	return typingFullLayer;
+			return typingFullLayer;
 }
 //Get the Next Layer in Array List
 function getNextLayer()
@@ -639,7 +701,7 @@ function handleNextLayer(currentLayer)
 					 					+'</div>'
 					 					+'<div class="small-8 columns">'
 					 						
-						 						+'<h2 class="wordKey">'+ currentLayer["key"]  +'<i class="fi-volume size-36 wordVolume"></i></h3>'
+						 						+'<h2 class="wordKey">'+ currentLayer["key"]  +'<i class="fi-volume size-36 wordVolume"></i><span class="wordScore right">'+scoreList[ currentLayer["id"] ]+'</span></h3>'
 						 						+ '<p class="wordHiragana">' + currentLayer["hiragana"] + '<span class="wordAttributes">( '+currentLayer["attributes"]+' )</span></p>'
 						 						+ '<p>' + currentLayer["kanjiMean"] + '</p>'
 						 						
@@ -708,6 +770,8 @@ function handleNextLayer(currentLayer)
  					+'</div>';
  		
  		$('.learning').html(html);
+		//Focus on first input, ready to answer
+		focusOnFirstInput();
  	}
 
  	if(currentLayer["type"] == "typing_full")
@@ -717,7 +781,7 @@ function handleNextLayer(currentLayer)
  					+'<div class="row">'
 	 					+'<div class="small-6 small-centered columns">'
 		 					+'<div class="row question">'
-			 					+'<div class="row labels">Cho nghĩa, nhập từ</div>'
+			 					+'<h3 class="lightGray">Cho nghĩa, nhập từ</h3>'
 				 					+'<div class="row content">'
 				 						+'<h2>'+currentLayer["question"]+'</h2>'
 				 					+'</div>'
@@ -729,6 +793,11 @@ function handleNextLayer(currentLayer)
  					+'</div>';
  		
  		$('.learning').html(html);
+
+ 		//RESET countEnter value to 3
+ 		countEnter = 3;
+ 		//Focus on first input, ready to answer
+ 		focusOnFirstInput();
  	}
 
 

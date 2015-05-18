@@ -126,6 +126,11 @@ Route::group(array('before' => 'auth'), function() {
 		array('as' => 'course-data',
 			'uses' => 'LearnController@getCourseData'
 	));
+
+		Route::get('/learn/{objectId}/truemcq',
+			array('as' => 'true-mcq',
+				'uses' => 'LearnController@trueMcq'
+		));
 });
 
 //ajax Filtered

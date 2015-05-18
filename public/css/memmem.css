@@ -174,20 +174,19 @@ body{
     padding: 20px;
 
     color: #908B8B;
-
 }
 
 #popupLearningWrapper ul {
    padding: 10px;
 }
 
-#popupLearningWrapper ul li div{
+#popupLearningWrapper ul li a{
    -moz-transition: all 0.3s ease;
    -webkit-transition: all 0.3s ease;
    transition: all 0.3s ease;
 }
 
-#popupLearningWrapper ul li div:hover{
+#popupLearningWrapper ul li a:hover{
     cursor: pointer;
     -webkit-transform: scale(1.2);
     -moz-transform: scale(1.2);
@@ -428,7 +427,17 @@ body{
         color: #8C8C8D;
     }
 
+/*******************************************************/
+/* TYPING FULL LAYER */
 
+.typingFull{
+    padding-top: 30px;
+}
+
+    .typingFullAnswer input{
+          height: 50px;
+        font-size: 20px;
+    }
 
 /*******************************************************/
 /* WORD LAYER */

@@ -16,7 +16,7 @@
 				<br>
 				<br>
 				<p class="text-center">
-				@if($isFollowing)
+				@if( $isFollowing )
 				
 				
 					<button class="btnFollowing green" onclick="follow(this,{{ $user->id }})">Đang theo dõi </button>
@@ -44,7 +44,7 @@
 
 				<ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4">
 
-					@foreach($user->set as $sets)
+					@foreach($user->addedSet as $sets)
 							
 							<li>
 								<a href="{{ URL::route('set-view',$sets->set_id) }}">

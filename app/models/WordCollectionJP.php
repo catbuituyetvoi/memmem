@@ -11,5 +11,8 @@ class WordCollectionJP extends Eloquent {
 	/* Alowing Eloquent to insert data into our database */
 	protected $fillable = array('user_id','object_id','word_id','learn','remembered');
 	//Turn off timestamps
-
+	public function word()
+	{
+		return $this->belongsTo('WordJP');
+	}
 }

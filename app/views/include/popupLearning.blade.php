@@ -12,11 +12,8 @@
 			@foreach($learningObject as $object)
 			
 			<li>
-		
-					
-					<div class="popup-avatar" style="background: url( {{ URL::asset('img/object/'.$object->id.'/thumb.jpg') }}) no-repeat;">
-					
-		
+						<a class="popup-avatar" style="background: url( {{ URL::asset('img/object/'.$object->object_id.'/thumb.jpg') }}) no-repeat;" href="{{ URL::route('object-view', $object->id ) }}">
+						</a>
 			</li>
 
 			@endforeach
