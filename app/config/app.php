@@ -121,8 +121,8 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
-		'MemMem\Mimg\MimgServiceProvider',
-		'MemMem\Mtime\MtimeServiceProvider'
+		//'MemMem\Mimg\MimgServiceProvider',
+		//'MemMem\Mtime\MtimeServiceProvider'
 	),
 
 	/*

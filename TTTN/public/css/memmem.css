@@ -1,0 +1,204 @@
+body{
+    
+}
+.right{
+    float:right;
+}
+.red{
+    color:  red;
+}
+.green{
+    color:  green;
+}
+.blue{
+    color:  blue;
+}
+.purple{
+    color:  purple;
+}
+.gray{
+    color:  gray;
+}
+    .right-corner-username{
+        padding:    10px;
+        color:      white;
+    }
+
+
+/* TOP NAV BAR */
+
+.topBar{
+     background-color: #89CB2C;
+}
+    .topBar a, .topBar li{
+         background-color: #89CB2C !important;
+    }
+    .topBar .divider{
+        border-right: solid 1px  #60B009 !important;
+    }
+
+
+
+/* Loading div is full centering screen */
+#loading{
+    display: inline-block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    margin: auto;
+}
+
+/* GUEST HOMEPAGE */
+.rightLogin form{
+    margin-top: 30px;
+}
+
+
+
+.learning{
+    height:400px;
+    border:ridge 4px #4dfa76;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright:6px;
+    -moz-border-radius-bottomleft:5px;
+    -moz-border-radius-bottomright:5px;
+    -webkit-border-top-left-radius:5px;
+    -webkit-border-top-right-radius:6px;
+    -webkit-border-bottom-left-radius:5px;
+    -webkit-border-bottom-right-radius:5px;
+    border-top-left-radius:5px;
+    border-top-right-radius:6px;
+    border-bottom-left-radius:5px;
+    border-bottom-right-radius:5px;
+}
+.filter{
+   height:400px;
+}
+.charAnswer{
+    height:         30px !important;
+    width:          26px !important;
+    text-transform: uppercase;
+    font-weight:    bold;
+    font-size:      18px;
+    text-align:     center;
+
+    margin:         10px 5px !important;
+    padding:        0px !important;
+}
+.layer{
+	position: absolute;
+    border: 1px solid red;
+}
+.face1{
+
+    color: red;
+    background-color: white;
+}
+.face2{
+
+    color:green;
+    background-color: white;
+}
+
+.prevBtn{
+	
+}
+.mcq p{
+    height:40px;
+}
+.mcq p:hover{
+    background-color: gray;
+    cursor: pointer;
+
+}
+.nextBtn{
+	
+}
+
+.face2{
+ 	display: none;
+ }
+.flip {
+    -webkit-backface-visibility:hidden;
+    -webkit-transform:translateX(0); 
+    -moz-backface-visibility:hidden;
+    -moz-transform:translateX(0);
+}
+.flip.out {
+    -webkit-transform: rotateY(-90deg) scale(.9);
+    -webkit-animation-name: flipouttoleft;
+    -webkit-animation-duration: 175ms;
+    -moz-transform: rotateY(-90deg) scale(.9);
+    -moz-animation-name: flipouttoleft;
+    -moz-animation-duration: 175ms;
+}
+.flip.in {
+    -webkit-animation-name: flipintoright;
+    -webkit-animation-duration: 225ms;
+    -moz-animation-name: flipintoright;
+    -moz-animation-duration: 225ms;
+}
+.flip.out.reverse {
+    -webkit-transform: rotateY(90deg) scale(.9);
+    -webkit-animation-name: flipouttoright;
+    -moz-transform: rotateY(90deg) scale(.9);
+    -moz-animation-name: flipouttoright;
+}
+.flip.in.reverse {
+    -webkit-animation-name: flipintoleft;
+    -moz-animation-name: flipintoleft;
+}
+@-webkit-keyframes flipouttoleft {
+    from { -webkit-transform: rotateY(0); }
+    to { -webkit-transform: rotateY(-90deg) scale(.9); }
+}
+@-moz-keyframes flipouttoleft {
+    from { -moz-transform: rotateY(0); }
+    to { -moz-transform: rotateY(-90deg) scale(.9); }
+}
+@-webkit-keyframes flipouttoright {
+    from { -webkit-transform: rotateY(0) ; }
+    to { -webkit-transform: rotateY(90deg) scale(.9); }
+}
+@-moz-keyframes flipouttoright {
+    from { -moz-transform: rotateY(0); }
+    to { -moz-transform: rotateY(90deg) scale(.9); }
+}
+@-webkit-keyframes flipintoleft {
+    from { -webkit-transform: rotateY(-90deg) scale(.9); }
+    to { -webkit-transform: rotateY(0); }
+}
+@-moz-keyframes flipintoleft {
+    from { -moz-transform: rotateY(-90deg) scale(.9); }
+    to { -moz-transform: rotateY(0); }
+}
+@-webkit-keyframes flipintoright {
+    from { -webkit-transform: rotateY(90deg) scale(.9); }
+    to { -webkit-transform: rotateY(0); }
+}
+@-moz-keyframes flipintoright {
+    from { -moz-transform: rotateY(90deg) scale(.9); }
+    to { -moz-transform: rotateY(0); }
+}
+
+/* SET - GUEST VIEW */
+.objectThumb{
+    width:200px;
+    height:200px;
+}
+.setAddedViewObjectTitle{
+    font-weight: bold;
+}
+.setAddedViewWordBorder{
+    border:1px solid red;
+}
+.objectListTitle
+{
+    background-color: orange;
+    color:white;
+    
+}

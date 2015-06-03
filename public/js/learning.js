@@ -9,6 +9,7 @@ var current = 0,
 	layerList = [],
 	// return from generateCourse()
 	course = [],
+	mainCourse = [],
 	//arr of Result from Filtering
 	//This will use for post to server and save to database
 	arrResult = [],
@@ -199,7 +200,7 @@ $(document).ready(function(){
 							if( $(this).val().toLowerCase() == currentLayer.answerRomaji.toLowerCase() )
 							{
 									//Show notifyMessage then next to other Word
-									showNotify("chính xác!");
+									showNotify("chÃ­nh xÃ¡c!");
 									
 									getNextLayer();	
 							}
@@ -225,7 +226,7 @@ $(document).ready(function(){
 							if( $(this).val().toLowerCase() == currentLayer.answerJapanese )
 							{
 									//Show notifyMessage then next to other Word
-									showNotify("chính xác!");
+									showNotify("chÃ­nh xÃ¡c!");
 									getNextLayer();	
 							}
 							else{
@@ -261,7 +262,7 @@ $(document).ready(function(){
 				//Show the popup "Good" in second
 				//Then continue the course, load next Layer
 
-				//showNotify("tuyệt vời!");
+				//showNotify("tuyá»‡t vá»i!");
 				addScoreForTrueMCQ();
 
 				$(this).prepend('<i class="fi-check darkGreen"></i>');
@@ -543,57 +544,16 @@ function initCourse()
 //Include word Layers, typing Layers, MCQ and more and more...
 function generateCourse(wordList)
 {
+var lazyImage = [];
 		//Generating from all words the user choosen to learn
 		//make a List of Layer
 		$.each(wordList, function(index,word)
 		{
+
+lazyImage += "<img src='../" + word.image + "'/>";
+			var wordPair = [];
+
 			var wordLayer = {};
-			
-
-			//For first of 3 words, generate a MCQ Layer
-			if(index == 3)
-			{
-				var mcqLayer = {};
-				//contain all answer of questions
-				var answerList = [];
-				//Random to select one in first 3 word to create MCQ for this words
-				var selectWord = getRandomInt(0,2);
-
-				mcqLayer.type = "mcq";
-				mcqLayer.id = wordList[selectWord].id;
-				mcqLayer.image = wordList[selectWord].image;
-				mcqLayer.question = wordList[selectWord].value;
-
-				for( i= 0; i<3; i++)
-				{
-					var answer = {};
-					//keyId using for Last Layer
-					//If answer is incorrect
-					//Make a True False Layer
-					answer.id = wordList[i].id;
-					answer.content = wordList[i].key;
-					answer.mean = wordList[i].value;
-					answer.value = false;
-					//If this answer is for this question
-					//Set it value to true
-					if( i == selectWord)
-					{
-						answer.value = true;
-					}
-
-					answerList.push(answer);
-				}
-				//Shuffle answerList before push to MCQLayer
-				mcqLayer.answer = shuffleArr(answerList);
-				//Loop Shuffle Arr to find the correct Answer
-				$.each(answerList, function(index,word)
-				{
-					if( word.id == wordList[selectWord].id)
-						mcqLayer.correctAnswer = index;
-				});
-
-				course.push(mcqLayer);
-			}
 			//Copy all attributes of this word
 			wordLayer = word
 			//Override some default attribute name
@@ -609,14 +569,38 @@ function generateCourse(wordList)
 			//var typingFullLayer = {};
 
 			//Push this word to Layer
-			course.push(wordLayer);
+			//course.push(wordLayer);
 			//Also generate a typing_full Layer
 			var typingFullLayer = generateTypingFullLayer(word);
-			course.push( typingFullLayer );
 
+			//course.push( typingFullLayer );
+			//WORDPAIR have "WORD" and it own "TYPING" layer
+			wordPair.push(wordLayer);
+			wordPair.push(typingFullLayer);
+			//PUSH TO A TEMPORARY ARRAY
+			course.push(wordPair);
+			//AFTER this, the temporary array will be an array of n array ( each are a pair of word and typing )
 		});
+	//Lazy loading Image
+		$('.lazyImage').html(lazyImage);
 
-		return course;
+		//var mainCourse = [];
+		//Loop until all element is push into mainCourse[]
+		while( course.length != 0 )
+		{
+			var rd = getRandomInt(0, course.length -1);
+
+			mainCourse.push( course[rd][0] );
+
+			course[rd].splice(0,1);
+			//Remove if this pair
+			if(course[rd].length == 0)
+			{
+				course.splice(rd,1);
+			}
+		}
+
+		return mainCourse;
 }
 //********************************************************
 //param: word - array of word Data
@@ -671,10 +655,10 @@ function handleNextFilter(currentLayer)
 							+"</div>"
 							+'<br><br><div class="row clearfix">'
 								+'<div class="small-6 columns">'
-									+'<button class="unknown">HỌC</button>'
+									+'<button class="unknown">Há»ŒC</button>'
 								+'</div>'
 								+'<div class="small-6 columns">'
-									+'<button class="known">KHÔNG HỌC</button>'
+									+'<button class="known">KHÃ”NG Há»ŒC</button>'
 								+'</div>'
 							+'</div>'
 						+"</div>"
@@ -730,7 +714,7 @@ function handleNextLayer(currentLayer)
 					 				+'<br>'
 					 				+'<div class="row">'
 						 				+'<div class="small-4 small-centered columns">'
-						 					+'<button class="nextButton small-8 button success">học tiếp</button>'
+						 					+'<button class="nextButton small-8 button success">há»c tiáº¿p</button>'
 						 				+'</div>'
      								+'</div>'
 			 					+'</div>'
@@ -757,14 +741,14 @@ function handleNextLayer(currentLayer)
  					+'<div class="row">'
 	 					+'<div class="small-6 small-centered columns">'
 		 					+'<div class="row question">'
-			 					+'<div class="row labels">Cho nghĩa, nhập từ</div>'
+			 					+'<div class="row labels">Cho nghÄ©a, nháº­p tá»«</div>'
 				 					+'<div class="row content">'
 				 						+'<h2>'+currentLayer["question"]+'</h2>'
 				 					+'</div>'
 			 					+'</div><br><br>'
-			 					+'<div class="row">Nhập đáp án rồi bấm Enter:</div>'
+			 					+'<div class="row">Nháº­p Ä‘Ã¡p Ã¡n rá»“i báº¥m Enter:</div>'
 			 					+'<div class="row typinganswer">'+charInput+'</div>'
-			 					+'<div class="row"><span class="typingHelp">Gợi ý</span></div>'
+			 					+'<div class="row"><span class="typingHelp">Gá»£i Ã½</span></div>'
 		 					+'</div>'
 	 					+'</div>'
  					+'</div>';
@@ -776,12 +760,12 @@ function handleNextLayer(currentLayer)
 
  	if(currentLayer["type"] == "typing_full")
  	{
- 		var charInput = '<input type="text" placeholder="Nhập đáp án bằng Japanese hoặc Romaji rồi bấm Enter:">';
+ 		var charInput = '<input type="text" placeholder="Nháº­p Ä‘Ã¡p Ã¡n báº±ng Japanese hoáº·c Romaji rá»“i báº¥m Enter:">';
  		var html = '<div class="typingFull">'
  					+'<div class="row">'
 	 					+'<div class="small-6 small-centered columns">'
 		 					+'<div class="row question">'
-			 					+'<h3 class="lightGray">Cho nghĩa, nhập từ</h3>'
+			 					+'<h3 class="lightGray">Cho nghÄ©a, nháº­p tá»«</h3>'
 				 					+'<div class="row content">'
 				 						+'<h2>'+currentLayer["question"]+'</h2>'
 				 					+'</div>'
@@ -820,7 +804,7 @@ function handleNextLayer(currentLayer)
 			 					+'</div>'
 			 					+'<div class="small-8 columns">'
 				 					+'<h3 class="mcqQuestion">'+currentLayer["question"]+' ?</h3>'
-				 					+'<h5>Chọn đáp án đúng</h5>'
+				 					+'<h5>Chá»n Ä‘Ã¡p Ã¡n Ä‘Ãºng</h5>'
 				 					+'<h4></h4> '+ htmlAnswer +'</h4>'
 			 					+'</div>'
 		 					+'</div>'
